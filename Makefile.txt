@@ -1,0 +1,11 @@
+CC=gcc
+CFLAGS=-Wall
+
+SRC=src/*.c
+OUT=myirctc
+
+all:
+	$(CC) $(SRC) -o $(OUT)
+
+clean:
+	rm -f myirctc
