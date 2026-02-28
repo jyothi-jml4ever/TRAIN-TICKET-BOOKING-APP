@@ -1,2 +1,1 @@
-# TRAIN-TICKET-BOOKING-APP
-This project is to implement TRAIN TICKET BOOKING APP with  options to signIN , signUP, booking ticket , cancelling ticket , checking  trasin availablities etc...
+Description of project
