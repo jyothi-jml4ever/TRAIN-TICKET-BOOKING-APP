@@ -35,6 +35,8 @@ int train_exists(int tno, train_t *out)
 void display_trains()
 {
     FILE *fp = fopen("data/trains_info.txt", "r");
+
+    printf("\n------ Available Trains ------\n");
  
     if (!fp) {
         printf("No trains available.\n");
@@ -42,11 +44,13 @@ void display_trains()
     }
 
     train_t t;
+    int found=0;
 
     while (fscanf(fp, "%d %s %s %s %d %d",
         &t.train_no, t.train_name, t.source,
         t.destination, &t.total_seats, &t.available_seats) != EOF)
     {
+        found=1;
         printf("%d %s %s -> %s Seats:%d\n",
             t.train_no, t.train_name,
             t.source, t.destination,
@@ -91,4 +95,5 @@ void add_train()
 
     fclose(fp);
     printf("Train Added\n");
+
 }
