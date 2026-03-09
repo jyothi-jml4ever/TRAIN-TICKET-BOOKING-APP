@@ -1,5 +1,34 @@
 #include "../include/irctc.h"
 
+/* Find last booked seat for given train and date */
+int get_last_seat(int tno, char *date)
+{
+    FILE *fp = fopen("data/bookings.txt","r");
+    if (!fp)
+        return 0;
+
+    passenger_t p;
+    int g;
+    int max_seat = 0;
+
+    while (fscanf(fp,"%d %s %d %s %d %d",
+        &p.train_no,
+        p.date,
+        &p.seat_no,
+        p.name,
+        &p.age,
+        &g) != EOF)
+    {
+        if (p.train_no == tno && strcmp(p.date,date) == 0)
+        {
+            if (p.seat_no > max_seat)
+                max_seat = p.seat_no;
+        }
+    }
+    fclose(fp);
+    return max_seat;
+}
+
 void reserve_ticket()
 {
     int tno, seats;
@@ -27,17 +56,42 @@ void reserve_ticket()
     printf("Seats Required: ");
     scanf("%d", &seats);
 
-    FILE *fp = fopen("data/bookings.txt", "a");
+    /* prevent overbooking */
+    if (seats > t.available_seats)
+    {
+        printf("Not enough seats available\n");
+        return;
+    }
 
-    for (int i=1; i<=seats && i<=5; i++)
+    if (seats > 5)
+    {
+        printf("Maximum 5 seats allowed per booking\n");
+        seats = 5;
+    }
+
+    FILE *fp = fopen("data/bookings.txt","a");
+
+    if (!fp)
+    {
+        printf("Error opening bookings file\n");
+        return;
+    }
+
+    /* get next seat number */
+    int start_seat = get_last_seat(tno,date) + 1;
+    
+    //FILE *fp = fopen("data/bookings.txt", "a");
+
+    for (int i=0; i<seats; i++)
     {
         passenger_t p;
         int g;
         p.train_no = tno;
         strcpy(p.date, date);
-        p.seat_no = i;
+        //p.seat_no = i;
+         p.seat_no = start_seat + i;
 
-        printf("Passenger Name: ");
+        printf("Name: ");
         scanf("%s", p.name);
         printf("Age: ");
         scanf("%d", &p.age);
@@ -49,11 +103,12 @@ void reserve_ticket()
             p.train_no, p.date,
             p.seat_no, p.name, p.age,p.gender);
     }
-
-    update_seats(tno, seats);
-
+    
     fclose(fp);
 
-    if (seats > 5)
-        printf("Only 5 seats booked\n");
+    update_seats(tno, seats);
+    
+    //if (seats > 5)
+       // printf("Only 5 seats booked\n");
+     printf("\nBooking Successful!\n");
 }
