@@ -56,6 +56,8 @@ void display_trains()
             t.source, t.destination,
             t.available_seats);
     }
+    if (!found)
+        printf("No trains available.\n");
     fclose(fp);
 }
 
@@ -97,3 +99,4 @@ void add_train()
     printf("Train Added\n");
 
 }
+
