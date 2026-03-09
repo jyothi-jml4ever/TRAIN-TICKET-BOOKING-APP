@@ -60,6 +60,7 @@ int train_exists(int, train_t *);
 void reserve_ticket();
 void cancel_ticket();
 void booking_details();
+int get_last_seat(int, char *);
 
 /* DATE */
 int valid_date(char *);
