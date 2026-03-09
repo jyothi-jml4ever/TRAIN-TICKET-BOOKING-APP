@@ -14,6 +14,7 @@ void booking_details()
 
     FILE *fp = fopen("data/bookings.txt", "r");
     passenger_t p;
+    int found=0;
     int g;
 
     while (fscanf(fp, "%d %s %d %s %d %d",
@@ -31,5 +32,8 @@ void booking_details()
 
         }
     }
+    if(found);
+    else printf("Booking details not found\n");
     fclose(fp);
+
 }
