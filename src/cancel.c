@@ -16,19 +16,20 @@ void cancel_ticket()
     FILE *tmp = fopen("data/tmp.txt", "w");
 
     passenger_t p;
+    train_t t;
     int found = 0;
 
-    while (fscanf(fp, "%d %s %d %s %d",
+    while (fscanf(fp, "%d %s %d %s %d %d",
         &p.train_no, p.date,
-        &p.seat_no, p.name, &p.age) != EOF)
+        &p.seat_no, p.name, &p.age,&t.available_seats) != EOF)
     {
         if (p.train_no==tno && p.seat_no==seat && !strcmp(p.date,date))
         {
             found = 1;
             continue;
         }
-        fprintf(tmp, "%d %s %d %s %d\n",
-            p.train_no, p.date, p.seat_no, p.name, p.age);
+        fprintf(tmp, "%d %s %d %s %d %d\n",
+            p.train_no, p.date, p.seat_no, p.name, p.age, t.available_seats);
     }
 
     fclose(fp);
@@ -43,4 +44,5 @@ void cancel_ticket()
         update_seats(tno, -1);
     }
     else printf("Booking not found\n");
+
 }
